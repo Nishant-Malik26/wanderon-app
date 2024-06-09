@@ -14,7 +14,7 @@ const Landing = () => {
       <div className="dark-overlay">
         <div className="landing-inner">
           <h1 className="x-large">Travel Assistant</h1>
-          <p className="lead">Travel world with use Make memories with us</p>
+          <p className="lead">Travel world with us and Make memories</p>
           <div className="buttons">
             <Link to="/register" className="btn btn-primary">
               Sign Up
