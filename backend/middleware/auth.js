@@ -7,7 +7,7 @@ const authenticate = (req, res, next) => {
     return res.status(400).json([{ msg: "Token is not present" }]);
   } else {
     try {
-      const decoded = jwt.verify(token, "itsasecret");
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
       req.user = decoded.user;
       next();
     } catch (error) {

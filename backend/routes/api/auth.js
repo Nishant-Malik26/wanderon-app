@@ -66,7 +66,7 @@ router.post(
         // setting cookies and sending auth token to client
         jwttoken.sign(
           payload,
-          "itsasecret",
+          process.env.SECRET_KEY,
           { expiresIn: 1800 },
           (err, token) => {
             if (err) {

@@ -58,7 +58,7 @@ router.post(
       // generating auth token and sending client side
       jwttoken.sign(
         payload,
-        "itsasecret",
+        process.env.SECRET_KEY,
         { expiresIn: 1800 },
         (err, token) => {
           if (err) {
