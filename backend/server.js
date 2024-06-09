@@ -9,7 +9,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 const corsOptions = {
-  origin: "https://wanderon-app-frontend.vercel.app/",
+  origin: "https://wanderon-app-frontend.vercel.app",
   credentials: true,
 };
 

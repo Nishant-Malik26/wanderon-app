@@ -1,3 +1,8 @@
+# Deployed URL's
+ -frontend 
+    - https://wanderon-app-frontend.vercel.app/
+-backend
+    - https://wanderon-app.onrender.com/
 # Design cosideration
 -For backend services Nodejs is used in addition express,
  -express-validator - for valudation
