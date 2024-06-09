@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwttoken = require("jsonwebtoken");
 const User = require("../../models/User");
 const router = express.Router();
+require("dotenv").config();
 
 const passwordRegex =
   /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
