@@ -5,7 +5,7 @@ import Navbar from "./components/layout/Navbar";
 import "./App.css";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import store from "./store";
 import Alert from "./components/layout/Alert";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:5001";
+axios.defaults.baseURL = "https://wanderon-app.onrender.com/";
 
 if (Cookies.get("token")) {
   setAuthToken(Cookies.get("token"));

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const authenticate = (req, res, next) => {
   const token = req.cookies.token;
-
+// middleware for checking if user is logged in
   if (!token) {
     return res.status(400).json([{ msg: "Token is not present" }]);
   } else {

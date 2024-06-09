@@ -5,6 +5,7 @@ const jwttoken = require("jsonwebtoken");
 const User = require("../../models/User");
 const router = express.Router();
 
+// @POST to register
 router.post(
   "/",
   [
@@ -18,14 +19,16 @@ router.post(
   ],
   async (req, res) => {
     const error = validationResult(req);
+    // to check errors
     if (!error.isEmpty()) {
       return res.status(400).json({ errors: error.array() });
     }
 
     try {
       const { name, password, email } = req.body;
-
+      // finding user via email
       let user = await User.findOne({ email });
+      // checking if user already exists
       if (user) {
         return res
           .status(400)
@@ -38,6 +41,7 @@ router.post(
         email,
       });
       const salt = await bcrypt.genSalt(10);
+      //hashing password
       user.password = await bcrypt.hash(password, salt);
       await user.save();
       const payload = {
@@ -45,7 +49,7 @@ router.post(
           id: user.id,
         },
       };
-
+      // generating auth token and sending client side
       jwttoken.sign(
         payload,
         "itsasecret",

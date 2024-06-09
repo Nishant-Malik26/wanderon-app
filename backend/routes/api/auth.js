@@ -6,9 +6,12 @@ const bcrypt = require("bcryptjs");
 const jwttoken = require("jsonwebtoken");
 const router = express.Router();
 
+// @GET to fetch user
 router.get("/", auth, async (req, res) => {
   try {
+    // fetch user
     const user = await User.findById(req.user.id).select("-password");
+    // check if user is available
     if (!user) {
       return res.status(400).json({ msg: "User Not Found" });
     } else return res.status(200).json({ user });
@@ -17,6 +20,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @POST to login
 router.post(
   "/",
   [
@@ -29,20 +33,22 @@ router.post(
   ],
   async (req, res) => {
     const error = validationResult(req);
+    // checking for errors
     if (!error.isEmpty()) {
       return res.status(400).json({ errors: error.array() });
     }
 
     try {
       const { password, email } = req.body;
-
+// find user by email id
       let user = await User.findOne({ email });
+
       if (!user) {
         return res
           .status(400)
           .json({ errors: [{ msg: "User Doesn't Exist" }] });
       }
-
+// comparing hashed password
       const isPassCorrect = await bcrypt.compare(password, user.password);
 
       if (isPassCorrect) {
@@ -51,7 +57,7 @@ router.post(
             id: user.id,
           },
         };
-
+// setting cookies and sending auth token to client
         jwttoken.sign(
           payload,
           "itsasecret",
@@ -72,6 +78,7 @@ router.post(
             }
           }
         );
+// Sending same msg for any error for security reason while logging in
       } else {
         res.status(500).json({ errors: [{ msg: "Incorrect Credentials" }] });
       }

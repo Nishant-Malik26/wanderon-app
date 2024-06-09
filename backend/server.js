@@ -1,33 +1,28 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const cors = require("cors");
-const path = require("path");
 const cookieParser = require("cookie-parser");
 
 const app = express();
+// connecting to DB
 connectDB();
 app.use(express.json({ extended: false }));
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Allow requests from the frontend service
-  credentials: true, 
+  origin: "https://wanderon-app-frontend.vercel.app/",
+  credentials: true,
 };
+
+// for parsing cookies
 app.use(cookieParser());
-
+// enabling cors for our backend domain
 app.use(cors(corsOptions));
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PUT, DELETE, OPTIONS"
-//   );
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
 
+// registration endpoint
 app.use("/api/users", require("./routes/api/users"));
+// login endpoint
 app.use("/api/auth", require("./routes/api/auth"));
-
+// catching any else endpoint
 app.get("*", (req, res) => {
   res.status(200).json({
     message: "bad request",
@@ -35,4 +30,4 @@ app.get("*", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`${PORT} ankha vikhona lagge`));
+app.listen(PORT, () => console.log("Application Connected"));

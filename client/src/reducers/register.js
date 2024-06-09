@@ -119,7 +119,6 @@ export const login =
     const body = JSON.stringify({ email, password });
     try {
       const res = await axios.post("/api/auth", body, config);
-      console.log("🚀 ~ res:", res);
       dispatch(loginSuccess(res.data));
       dispatch(loadUser());
     } catch (error) {
