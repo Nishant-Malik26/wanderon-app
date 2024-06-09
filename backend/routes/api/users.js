@@ -5,6 +5,9 @@ const jwttoken = require("jsonwebtoken");
 const User = require("../../models/User");
 const router = express.Router();
 
+const passwordRegex =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+
 // @POST to register
 router.post(
   "/",
@@ -13,9 +16,12 @@ router.post(
     check("email", "Email is not in correct format").trim().isEmail(),
     check("password", "Password length should be greater than 6")
       .trim()
-      .isLength({
-        min: 6,
-      }),
+      .isLength({ min: 8, max: 16 })
+      .withMessage("Password length should be between 8 and 16 characters")
+      .matches(passwordRegex)
+      .withMessage(
+        "Password must contain at least one number, one lowercase letter, one uppercase letter, one special character, and no spaces"
+      ),
   ],
   async (req, res) => {
     const error = validationResult(req);
@@ -61,7 +67,6 @@ router.post(
             res.cookie("token", token, {
               httpOnly: true,
               secure: true,
-              sameSite: "Strict",
             });
             res.json({ token });
           }

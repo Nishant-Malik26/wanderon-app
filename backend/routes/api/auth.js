@@ -6,6 +6,9 @@ const bcrypt = require("bcryptjs");
 const jwttoken = require("jsonwebtoken");
 const router = express.Router();
 
+const passwordRegex =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+
 // @GET to fetch user
 router.get("/", auth, async (req, res) => {
   try {
@@ -27,9 +30,12 @@ router.post(
     check("email", "Email is not in correct format").trim().isEmail(),
     check("password", "Password length should be greater than 6")
       .trim()
-      .isLength({
-        min: 6,
-      }),
+      .isLength({ min: 8, max: 16 })
+      .withMessage("Password length should be between 8 and 16 characters")
+      .matches(passwordRegex)
+      .withMessage(
+        "Password must contain at least one number, one lowercase letter, one uppercase letter, one special character, and no spaces"
+      ),
   ],
   async (req, res) => {
     const error = validationResult(req);
@@ -40,7 +46,7 @@ router.post(
 
     try {
       const { password, email } = req.body;
-// find user by email id
+      // find user by email id
       let user = await User.findOne({ email });
 
       if (!user) {
@@ -48,7 +54,7 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "User Doesn't Exist" }] });
       }
-// comparing hashed password
+      // comparing hashed password
       const isPassCorrect = await bcrypt.compare(password, user.password);
 
       if (isPassCorrect) {
@@ -57,7 +63,7 @@ router.post(
             id: user.id,
           },
         };
-// setting cookies and sending auth token to client
+        // setting cookies and sending auth token to client
         jwttoken.sign(
           payload,
           "itsasecret",
@@ -78,7 +84,7 @@ router.post(
             }
           }
         );
-// Sending same msg for any error for security reason while logging in
+        // Sending same msg for any error for security reason while logging in
       } else {
         res.status(500).json({ errors: [{ msg: "Incorrect Credentials" }] });
       }
