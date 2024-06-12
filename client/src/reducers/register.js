@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-// import setAuthToken from "../setAuthToken";
 import { setAlertWithRemove } from "./removeAlert";
 import Cookies from "js-cookie";
 
 const initialState = {
-  // token: Cookies.get("token"),
   isAuthenticated: false,
   loading: true,
   user: null,
@@ -16,19 +14,15 @@ const Auth = createSlice({
   initialState,
   reducers: {
     registerSuccess: (state, action) => {
-      // Cookies.set("token", action.payload.token);
       return {
         ...state,
-        // token: action.payload.token,
         isAuthenticated: true,
         loading: false,
       };
     },
     loginSuccess: (state, action) => {
-      // Cookies.set("token", action.payload.token);
       return {
         ...state,
-        // token: action.payload.token,
         isAuthenticated: true,
         loading: false,
       };
@@ -97,7 +91,6 @@ export const register =
 
 export const loadUser = () => async (dispatch) => {
   if (Cookies.get("token")) {
-    // setAuthToken(Cookies.get("token"));
     try {
       const res = await axios.get("/api/auth");
       dispatch(userLoaded(res?.data));
@@ -137,6 +130,5 @@ export const login =
 
 export const logout = () => (dispatch) => {
   Cookies.remove("token");
-  // setAuthToken(null);
   dispatch(loginFail());
 };
