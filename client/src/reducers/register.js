@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import setAuthToken from "../setAuthToken";
+// import setAuthToken from "../setAuthToken";
 import { setAlertWithRemove } from "./removeAlert";
 import Cookies from "js-cookie";
 
@@ -16,7 +16,7 @@ const Auth = createSlice({
   initialState,
   reducers: {
     registerSuccess: (state, action) => {
-      Cookies.set("token", action.payload.token);
+      // Cookies.set("token", action.payload.token);
       return {
         ...state,
         token: action.payload.token,
@@ -97,7 +97,7 @@ export const register =
 
 export const loadUser = () => async (dispatch) => {
   if (Cookies.get("token")) {
-    setAuthToken(Cookies.get("token"));
+    // setAuthToken(Cookies.get("token"));
     try {
       const res = await axios.get("/api/auth");
       dispatch(userLoaded(res?.data));
@@ -137,6 +137,6 @@ export const login =
 
 export const logout = () => (dispatch) => {
   Cookies.remove("token");
-  setAuthToken(null);
+  // setAuthToken(null);
   dispatch(loginFail());
 };
