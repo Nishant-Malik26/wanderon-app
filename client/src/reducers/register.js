@@ -5,7 +5,7 @@ import { setAlertWithRemove } from "./removeAlert";
 import Cookies from "js-cookie";
 
 const initialState = {
-  token: Cookies.get("token"),
+  // token: Cookies.get("token"),
   isAuthenticated: false,
   loading: true,
   user: null,
@@ -19,27 +19,27 @@ const Auth = createSlice({
       // Cookies.set("token", action.payload.token);
       return {
         ...state,
-        token: action.payload.token,
+        // token: action.payload.token,
         isAuthenticated: true,
         loading: false,
       };
     },
     loginSuccess: (state, action) => {
-      Cookies.set("token", action.payload.token);
+      // Cookies.set("token", action.payload.token);
       return {
         ...state,
-        token: action.payload.token,
+        // token: action.payload.token,
         isAuthenticated: true,
         loading: false,
       };
     },
     registerFail: (state, action) => {
       Cookies.remove("token");
-      return { ...state, token: null, isAuthenticated: false, loading: false };
+      return { ...state,  isAuthenticated: false, loading: false };
     },
     loginFail: (state, action) => {
       Cookies.remove("token");
-      return { ...state, token: null, isAuthenticated: false, loading: false };
+      return { ...state,  isAuthenticated: false, loading: false };
     },
     userLoaded: (state, action) => {
       return {
@@ -51,7 +51,7 @@ const Auth = createSlice({
     },
     authError: (state, action) => {
       Cookies.remove("token");
-      return { ...state, token: null, isAuthenticated: false, loading: false };
+      return { ...state,  isAuthenticated: false, loading: false };
     },
   },
 });
