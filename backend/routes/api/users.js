@@ -68,7 +68,6 @@ router.post(
             res.cookie("token", token, {
               httpOnly: true,
               secure: true,
-              sameSite: "None",
             });
             res.json({ token });
           }
