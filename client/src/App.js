@@ -10,7 +10,7 @@ import store from "./store";
 import Alert from "./components/layout/Alert";
 import { useEffect } from "react";
 import { loadUser } from "./reducers/register";
-import setAuthToken from "./setAuthToken";
+// import setAuthToken from "./setAuthToken";
 import Dashboard from "./components/dashboard/Dashboard";
 import { PrivateRoutes } from "./components/routing/PrivateRoutes";
 import Cookies from "js-cookie";
@@ -19,9 +19,9 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "https://wanderon-app.onrender.com/";
 
-if (Cookies.get("token")) {
-  setAuthToken(Cookies.get("token"));
-}
+// if (Cookies.get("token")) {
+//   setAuthToken(Cookies.get("token"));
+// }
 
 function App() {
   useEffect(() => {
